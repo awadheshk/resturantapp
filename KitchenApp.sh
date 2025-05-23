@@ -7,14 +7,13 @@ echo "Enabling Cloud Run API...${RESET}"
 gcloud services enable run.googleapis.com
 
 # Step 2: Download required files from GitHub
-echo "Downloading required files...${RESET}"
+echo "Downloading required application files...${RESET}"
 
 wget https://raw.githubusercontent.com/awadheshk/geniecode/refs/heads/main/chef.py
 wget https://raw.githubusercontent.com/awadheshk/geniecode/refs/heads/main/Dockerfile
 wget https://raw.githubusercontent.com/awadheshk/geniecode/refs/heads/main/requirements.txt
 
 wget https://raw.githubusercontent.com/awadheshk/geniecode/refs/heads/main/app.py
-
 
 # Step 3: Set project and region variables
 echo "Setting GCP project and region variables...${RESET}"
@@ -36,11 +35,8 @@ nohup streamlit run chef.py \
   --server.enableXsrfProtection=false \
   --server.port 8080 > kitchenrecipe.log 2>&1 &
 
-echo
-echo "Kitchen Recipe Generator is running at: ${RESET}""http://localhost:8080"
-echo
-
 # Step 11: Create Artifact Repository
+
 echo "Creating Artifact Registry repository...${RESET}"
 AR_REPO='kitchen-recipe-generator-repo'
 SERVICE_NAME='kitchen-recipe-generator-app' 
@@ -65,5 +61,8 @@ gcloud run deploy "$SERVICE_NAME" \
 echo "Fetching Cloud Run service URL...${RESET}"
 CLOUD_RUN_URL=$(gcloud run services describe "$SERVICE_NAME" --region="$GCP_REGION" --format='value(status.url)')
 
+echo
+echo "Kitchen Recipe Generator is running at: ${RESET}""http://localhost:8080"
+echo
 echo "Cloud Run Service is available at: ${RESET}""$CLOUD_RUN_URL"
 echo
