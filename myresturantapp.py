@@ -125,7 +125,7 @@ At the end of the recommendation provide the calories associated with the meal a
 
 config = {
     "temperature": 0.8,   # randomness - 0.0 to 1.0
-    "max_output_tokens": 2048, // length of the response
+    "max_output_tokens": 2048, # length of the response
 }
 
 generate_t2t = st.button("Generate my recipes.", key="generate_t2t")
