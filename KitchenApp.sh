@@ -13,8 +13,6 @@ wget https://raw.githubusercontent.com/awadheshk/resturantapp/refs/heads/main/my
 wget https://raw.githubusercontent.com/awadheshk/resturantapp/refs/heads/main/Dockerfile
 wget https://raw.githubusercontent.com/awadheshk/resturantapp/refs/heads/main/requirements.txt
 
-wget https://raw.githubusercontent.com/awadheshk/geniecode/refs/heads/main/app.py
-
 # Step 3: Set project and region variables
 echo "Setting GCP project and region variables...${RESET}"
 GCP_PROJECT=$(gcloud config get-value project)
