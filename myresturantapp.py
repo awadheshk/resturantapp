@@ -65,7 +65,7 @@ def get_gemini_flash_text_response(
 st.header("My GenAI Resturant recipe helper app", divider="gray")
 text_model_flash = load_models()
 
-st.write("Using Gemini Flash - Text only model")
+# st.write("Using Gemini Flash - Text only model")
 st.subheader("GenAI Cook of My Resturant")
 
 cuisine = st.selectbox(
@@ -109,17 +109,13 @@ max_output_tokens = 2048
 
 # Modify this prompt with the custom prompt.
 
-prompt = f"""I am a resturant Cook.  I need to create {cuisine} \n
-recipes for customers who want {dietary_preference} meals. \n
+prompt = f"""I am a restaurant Cook.  I need to create {cuisine} recipes for customers who want {dietary_preference} meals. \n
 However, don't include recipes that use ingredients with the customer's {allergy} allergy. \n
-I have {ingredient_1}, \n
-{ingredient_2}, \n
-and {ingredient_3} \n
-in my kitchen and other ingredients. \n
+I have {ingredient_1}, {ingredient_2}, and {ingredient_3} in my kitchen and other ingredients. \n
 The customer's wine preference is {wine} \n
 Please provide some for meal recommendations.
 For each recommendation include preparation instructions, time to prepare and the recipe title at the beginning of the response.
-Then include the wine paring for each recommendation.
+Then include the wine pairing for each recommendation.
 At the end of the recommendation provide the calories associated with the meal and the nutritional facts.
 """
 
