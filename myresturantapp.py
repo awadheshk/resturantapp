@@ -145,4 +145,5 @@ if generate_t2t and prompt:
                 logging.info(response)
         with first_tab2:
             st.text(prompt)
+            # st.code(prompt, language="markdown")
           
