@@ -9,9 +9,9 @@ gcloud services enable run.googleapis.com
 # Step 2: Download required files from GitHub
 echo "Downloading required application files...${RESET}"
 
-wget https://raw.githubusercontent.com/awadheshk/geniecode/refs/heads/main/chef.py
-wget https://raw.githubusercontent.com/awadheshk/geniecode/refs/heads/main/Dockerfile
-wget https://raw.githubusercontent.com/awadheshk/geniecode/refs/heads/main/requirements.txt
+wget https://raw.githubusercontent.com/awadheshk/resturantapp/refs/heads/main/myresturantapp.py
+wget https://raw.githubusercontent.com/awadheshk/resturantapp/refs/heads/main/Dockerfile
+wget https://raw.githubusercontent.com/awadheshk/resturantapp/refs/heads/main/requirements.txt
 
 wget https://raw.githubusercontent.com/awadheshk/geniecode/refs/heads/main/app.py
 
@@ -20,6 +20,14 @@ echo "Setting GCP project and region variables...${RESET}"
 GCP_PROJECT=$(gcloud config get-value project)
 GCP_REGION=$(gcloud compute project-info describe \
 --format="value(commonInstanceMetadata.items[google-compute-default-region])")
+
+echo
+echo "GCP Project ID: ${RESET}""$GCP_PROJECT"
+echo
+
+echo
+echo "GCP Location: ${RESET}""$GCP_REGION"
+echo
 
 # Step 4: Create a virtual environment and install dependencies
 echo "Setting up Python virtual environment...${RESET}"
