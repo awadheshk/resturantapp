@@ -1,5 +1,5 @@
 import os
-import streamlit as st
+import streamlit as st #streamlit library
 import logging
 from google.cloud import logging as cloud_logging
 import vertexai
@@ -20,8 +20,8 @@ logging.basicConfig(level=logging.INFO)
 log_client = cloud_logging.Client()
 log_client.setup_logging()
 
-PROJECT_ID = os.environ.get("GCP_PROJECT")  # Your Google Cloud Project ID
-LOCATION = os.environ.get("GCP_REGION")  # Your Google Cloud Project Region
+PROJECT_ID = os.environ.get("GCP_PROJECT")  # Google Cloud Project ID
+LOCATION = os.environ.get("GCP_REGION")  # Google Cloud Project Region
 vertexai.init(project=PROJECT_ID, location=LOCATION)
 
 
@@ -62,55 +62,54 @@ def get_gemini_flash_text_response(
             continue
     return " ".join(final_response)
 
-st.header("Vertex AI Gemini API", divider="gray")
+st.header("My GenAI Resturant recipe helper app", divider="gray")
 text_model_flash = load_models()
 
 st.write("Using Gemini Flash - Text only model")
-st.subheader("AI Chef")
+st.subheader("GenAI Cook of My Resturant")
 
 cuisine = st.selectbox(
-    "What cuisine do you desire?",
-    ("American", "Chinese", "French", "Indian", "Italian", "Japanese", "Mexican", "Turkish"),
+    "What cuisine do you wish to prepare?",
+    ("Indian", "Chinese", "French", "Italian", "Japanese", "Mexican"),
     index=None,
-    placeholder="Select your desired cuisine."
+    placeholder="Select the cuisine to be cooked."
 )
 
 dietary_preference = st.selectbox(
-    "Do you have any dietary preferences?",
-    ("Diabetese", "Glueten free", "Halal", "Keto", "Kosher", "Lactose Intolerance", "Paleo", "Vegan", "Vegetarian", "None"),
+    "Is there any dietary preferences of the customer?",
+    ("Diabetese", "Glueten free", "Halal", "Keto", "Vegan", "Vegetarian", "None"),
     index=None,
-    placeholder="Select your desired dietary preference."
+    placeholder="Select desired dietary preference (if any)."
 )
 
 allergy = st.text_input(
-    "Enter your food allergy:  \n\n", key="allergy", value="peanuts"
+    "Any specific food allergy of the customer:  \n\n", key="allergy", value="peanuts"
 )
 
 ingredient_1 = st.text_input(
-    "Enter your first ingredient:  \n\n", key="ingredient_1", value="ahi tuna"
+    "Enter first available item:  \n\n", key="ingredient_1", value="tuna"
 )
 
 ingredient_2 = st.text_input(
-    "Enter your second ingredient:  \n\n", key="ingredient_2", value="chicken breast"
+    "Enter second available item:  \n\n", key="ingredient_2", value="chicken breast"
 )
 
 ingredient_3 = st.text_input(
-    "Enter your third ingredient:  \n\n", key="ingredient_3", value="tofu"
+    "Enter third available item:  \n\n", key="ingredient_3", value="tofu"
 )
 
-# Task 2.5
 # Complete Streamlit framework code for the user interface, add the wine preference radio button to the interface.
 # https://docs.streamlit.io/library/api-reference/widgets/st.radio
 
 wine = st.radio (
-    "What wine do you prefer?\n\n", ["Red", "White", "None"], key="wine", horizontal=True
+    "Do the cusromer is having any wine preference?\n\n", ["Red", "White", "None"], key="wine", horizontal=True
 )
 
 max_output_tokens = 2048
 
-# Task 2.6
-# Modify this prompt with the custom chef prompt.
-prompt = f"""I am a Chef.  I need to create {cuisine} \n
+# Modify this prompt with the custom prompt.
+
+prompt = f"""I am a resturant Cook.  I need to create {cuisine} \n
 recipes for customers who want {dietary_preference} meals. \n
 However, don't include recipes that use ingredients with the customer's {allergy} allergy. \n
 I have {ingredient_1}, \n
@@ -119,23 +118,20 @@ and {ingredient_3} \n
 in my kitchen and other ingredients. \n
 The customer's wine preference is {wine} \n
 Please provide some for meal recommendations.
-For each recommendation include preparation instructions,
-time to prepare
-and the recipe title at the beginning of the response.
+For each recommendation include preparation instructions, time to prepare and the recipe title at the beginning of the response.
 Then include the wine paring for each recommendation.
-At the end of the recommendation provide the calories associated with the meal
-and the nutritional facts.
+At the end of the recommendation provide the calories associated with the meal and the nutritional facts.
 """
 
 config = {
-    "temperature": 0.8,
-    "max_output_tokens": 2048,
+    "temperature": 0.8,   # randomness - 0.0 to 1.0
+    "max_output_tokens": 2048, // length of the response
 }
 
 generate_t2t = st.button("Generate my recipes.", key="generate_t2t")
 if generate_t2t and prompt:
     # st.write(prompt)
-    with st.spinner("Generating your recipes using Gemini..."):
+    with st.spinner("Generating your recipes using Google GenAI (Gemini) ..."):
         first_tab1, first_tab2 = st.tabs(["Recipes", "Prompt"])
         with first_tab1:
             response = get_gemini_flash_text_response(
@@ -144,7 +140,7 @@ if generate_t2t and prompt:
                 generation_config=config,
             )
             if response:
-                st.write("Your recipes:")
+                st.write("Dear Cook, below are recommended recipes:")
                 st.write(response)
                 logging.info(response)
         with first_tab2:
